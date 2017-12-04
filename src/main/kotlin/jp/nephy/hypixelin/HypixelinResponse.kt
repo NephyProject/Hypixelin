@@ -2,6 +2,7 @@ package jp.nephy.hypixelin
 
 import com.github.salomonbrys.kotson.contains
 import com.google.gson.*
+import jp.nephy.hypixelin.response.ResponseObject
 import okhttp3.Request
 import okhttp3.Response
 import java.lang.reflect.InvocationTargetException

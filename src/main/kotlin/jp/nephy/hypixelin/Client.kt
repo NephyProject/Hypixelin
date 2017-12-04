@@ -1,16 +1,14 @@
 package jp.nephy.hypixelin
 
-import jp.nephy.hypixelin.model.BoostersResponse
-import jp.nephy.hypixelin.model.FindGuildResponse
-import jp.nephy.hypixelin.model.FriendsResponse
-import jp.nephy.hypixelin.model.GuildResponse
+import jp.nephy.hypixelin.model.*
+import jp.nephy.hypixelin.response.*
 
 class Client(val session: Session) {
     companion object {
         fun builder() = ClientBuilder()
     }
 
-    fun getBoosters(vararg options: Pair<String, String>): ResponseObject<BoostersResponse> {
+    fun getBoosters(vararg options: Pair<String, String>): ResponseObject<GetBoosters> {
         return session.new()
                 .url("/boosters")
                 .params(*options)
@@ -18,7 +16,7 @@ class Client(val session: Session) {
                 .getResponseObject()
     }
 
-    fun findGuild(name: String?=null, uuid: String?=null, vararg options: Pair<String, String>): ResponseObject<FindGuildResponse> {
+    fun findGuild(name: String?=null, uuid: String?=null, vararg options: Pair<String, String>): ResponseObject<FindGuild> {
         return session.new()
                 .url("/findGuild")
                 .apply {
@@ -28,7 +26,7 @@ class Client(val session: Session) {
                     if (name != null) {
                         param("byName" to name)
                     } else {
-                        param("byUuid" to uuid!!)
+                        param("byUuid" to uuid!!.replace("-", ""))
                     }
                 }
                 .params(*options)
@@ -36,21 +34,72 @@ class Client(val session: Session) {
                 .getResponseObject()
     }
 
-    fun getFriends(uuid: String, vararg options: Pair<String, String>): ResponseObject<FriendsResponse> {
+    fun getFriends(uuid: String, vararg options: Pair<String, String>): ResponseObject<GetFriends> {
         return session.new()
                 .url("/friends")
-                .param("uuid" to uuid)
+                .param("uuid" to uuid.replace("-", ""))
                 .params(*options)
                 .get()
                 .getResponseObject()
     }
 
-    fun getGuild(guildId: String, vararg options: Pair<String, String>): ResponseObject<GuildResponse> {
+    fun getGuild(guildId: String, vararg options: Pair<String, String>): ResponseObject<GetGuild> {
         return session.new()
                 .url("/guild")
                 .param("id" to guildId)
                 .params(*options)
                 .get()
                 .getResponseObject()
+    }
+
+    fun getKey(vararg options: Pair<String, String>): ResponseObject<GetKey> {
+        return session.new()
+                .url("/key")
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    fun getLeaderboards(vararg options: Pair<String, String>): ResponseObject<GetLeaderboards> {
+        return session.new()
+                .url("/leaderboards")
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    fun getPlayer(uuid: String, vararg options: Pair<String, String>): ResponseObject<GetPlayer> {
+        return session.new()
+                .url("/player")
+                .param("uuid" to uuid.replace("-", ""))
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    fun getSession(uuid: String, vararg options: Pair<String, String>): ResponseObject<GetSession> {
+        return session.new()
+                .url("/session")
+                .param("uuid" to uuid.replace("-", ""))
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    fun getWatchdogStats(vararg options: Pair<String, String>): ResponseObject<GetWatchdogStats> {
+        return session.new()
+                .url("/watchdogstats")
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
+
+    fun getMinecraftUUID(minecraftId: String, vararg options: Pair<String, String>): String {
+        return session.new()
+                .url("https://api.mojang.com/users/profiles/minecraft/$minecraftId")
+                .params(*options)
+                .get()
+                .getResponseObject<MojangUUID>()
+                .result.id
     }
 }
