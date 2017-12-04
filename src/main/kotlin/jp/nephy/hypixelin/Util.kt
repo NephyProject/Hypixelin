@@ -19,3 +19,7 @@ internal fun String.unescapeHTMLCharacters() = this
     .replace("&amp;", "&")
     .replace("&lt;", "<")
     .replace("&gt;", ">")
+
+internal fun List<Int>.toTriple(): Triple<Int, Int, Int> {
+    return Triple(this.component1(), this.component2(), this.component3())
+}
