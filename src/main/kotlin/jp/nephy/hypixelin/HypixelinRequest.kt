@@ -11,13 +11,14 @@ class HypixelinRequest(private val session: Session) {
             "key" to session.apiKey
     )
     private val headers = mapOf(
-            "Endpoint-Agent" to "Hypixelin/1.0 (https://github.com/NephyProject/Hypixelin)"
+            "Endpoint-Agent" to "Hypixelin/1.0 (Hypixel API Wrapper for Kotlin/JVM; https://github.com/NephyProject/Hypixelin)"
     )
 
     fun url(url: String) = this.apply {
         this.url = if (url.startsWith("/")) {
             "$baseUrl$url"
         } else {
+            params.remove("key")
             url
         }
     }
