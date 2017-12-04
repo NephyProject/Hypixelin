@@ -1,4 +1,4 @@
-package jp.nephy.hypixelin
+package jp.nephy.hypixelin.response
 
 import okhttp3.Request
 import okhttp3.Response

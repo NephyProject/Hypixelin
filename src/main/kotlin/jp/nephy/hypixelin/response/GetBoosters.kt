@@ -1,10 +1,11 @@
-package jp.nephy.hypixelin.model
+package jp.nephy.hypixelin.response
 
 import com.github.salomonbrys.kotson.byBool
 import com.google.gson.JsonElement
 import jp.nephy.hypixelin.converter.byList
+import jp.nephy.hypixelin.model.Booster
 
-class BoostersResponse(val json: JsonElement) {
+class GetBoosters(val json: JsonElement) {
     val success by json.byBool
     val boosters by json.byList<Booster>()
 }
