@@ -102,4 +102,12 @@ class Client(val session: Session) {
                 .getResponseObject<MojangUUID>()
                 .result.id
     }
+
+    fun getAchievements(vararg options: Pair<String, String>): ResponseObject<Achievements> {
+        return session.new()
+                .url("https://github.com/HypixelDev/PublicAPI/raw/master/Documentation/misc/Achievements.json")
+                .params(*options)
+                .get()
+                .getResponseObject()
+    }
 }
